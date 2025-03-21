@@ -7,29 +7,29 @@ if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(FileInputStream(keystorePropertiesFile))
 }
 
-android {
-    signingConfigs {
-        create("release") {
-            storeFile = file(keystoreProperties["storeFile"]?.toString() ?: "")
-            storePassword = keystoreProperties["storePassword"]?.toString() ?: ""
-            keyAlias = keystoreProperties["keyAlias"]?.toString() ?: ""
-            keyPassword = keystoreProperties["keyPassword"]?.toString() ?: ""
+    android {
+        signingConfigs {
+            create("release") {
+                storeFile = file(keystoreProperties["storeFile"]?.toString() ?: "")
+                storePassword = keystoreProperties["storePassword"]?.toString() ?: ""
+                keyAlias = keystoreProperties["keyAlias"]?.toString() ?: ""
+                keyPassword = keystoreProperties["keyPassword"]?.toString() ?: ""
+            }
+        }
+
+        buildTypes {
+            release {
+                signingConfig = signingConfigs.getByName("release")
+            }
         }
     }
 
-    buildTypes {
-        release {
-            signingConfig = signingConfigs.getByName("release")
-        }
+    plugins {
+        id("com.android.application")
+        id("kotlin-android")
+        // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
+        id("dev.flutter.flutter-gradle-plugin")
     }
-}
-
-plugins {
-    id("com.android.application")
-    id("kotlin-android")
-    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
-    id("dev.flutter.flutter-gradle-plugin")
-}
 
 android {
     namespace = "com.example.offlineminigames"
